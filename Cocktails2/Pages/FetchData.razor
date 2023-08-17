@@ -1,6 +1,10 @@
 ﻿@page "/fetchdata"
-@using Cocktails2.Data
-@inject WeatherForecastService ForecastService
+@using Cocktails2.Application.Services.Interfaces
+
+@*This should be changed to use dtos instead of domain entities!*@
+@using Cocktails2.Domain.Entities
+
+@inject ICocktailService cocktailService
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -8,7 +12,7 @@
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (cocktails == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -24,24 +28,22 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
         </tbody>
     </table>
+    @foreach (var cock in cocktails)
+    {
+            <p>@cock.Name</p>
+            <p>@cock.Description</p>
+            <p>@cock.IngredientPortions.FirstOrDefault()</p>
+            <p>@cock.PhotoUrl.AbsolutePath</p>
+    }
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private IReadOnlyCollection<Cocktail> cocktails = new List<Cocktail>();
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
+        cocktails = await cocktailService.GetAllCocktails();
     }
 }

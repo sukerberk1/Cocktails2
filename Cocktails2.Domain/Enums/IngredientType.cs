@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cocktails2.Domain.Entities.Enums
+namespace Cocktails2.Domain.Enums
 {
     public enum IngredientType
     {
