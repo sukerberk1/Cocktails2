@@ -17,7 +17,7 @@ namespace Cocktails2.Persistence
         public static IServiceProvider SeedDatabase(this IServiceProvider service)
         {
             var context = service.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            DatabaseSeed.Seed(context);
+            DatabaseSeed.SeedWith(context);
             return service;
         }
     }

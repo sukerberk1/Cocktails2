@@ -32,10 +32,13 @@ else
     </table>
     @foreach (var cock in cocktails)
     {
-            <p>@cock.Name</p>
-            <p>@cock.Description</p>
-            <p>@cock.IngredientPortions.FirstOrDefault()</p>
-            <p>@cock.PhotoUrl.AbsolutePath</p>
+        <p>@cock.Name</p>
+        <p>@cock.Description</p>
+            @foreach(var ingr in cock.IngredientPortions)
+            {
+            <p>ingr.Ingredient.Name</p>
+            }
+        <p>@cock.PhotoUrl.OriginalString</p>
     }
 }
 

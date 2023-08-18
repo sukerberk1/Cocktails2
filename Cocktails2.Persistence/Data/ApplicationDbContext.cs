@@ -1,10 +1,5 @@
-﻿using Cocktails2.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Cocktails2.Persistence.DAO;
 
 namespace Cocktails2.Persistence.Data;
 
@@ -13,8 +8,8 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
     { }
 
-    public DbSet<Cocktail> Cocktails { get; set; }
-    public DbSet<Ingredient> Ingredients { get; set; }
-    public DbSet<IngredientPortion> IngredientsPortions { get; set; }
+    public DbSet<CocktailDao> Cocktails { get; set; }
+    public DbSet<IngredientDao> Ingredients { get; set; }
+    public DbSet<IngredientPortionDao> IngredientsPortions { get; set; }
 
 }

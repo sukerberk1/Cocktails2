@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Exceptions\" />
+	  <Folder Include="Common\Exceptions\" />
+	  <Folder Include="Mapping\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cocktails2.Domain\Cocktails2.Domain.csproj" />
     <ProjectReference Include="..\Cocktails2.Persistence\Cocktails2.Persistence.csproj" />
   </ItemGroup>
 
