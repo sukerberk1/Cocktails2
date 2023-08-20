@@ -16,6 +16,7 @@ public static class Mapper
         Origin = (CocktailOrigin)Enum.Parse(typeof(CocktailOrigin), dao.Origin),
         CreatedOn = dao.CreatedOn,
         UpdatedOn = dao.UpdatedOn,
+        IngredientPortions = dao.IngredientPortions.ConvertAll(portion => portion.ToDomainEntity())
     };
 
     public static CocktailDao ToDao(this Cocktail entity) => new()

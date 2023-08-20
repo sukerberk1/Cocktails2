@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Cocktails2.Persistence.DAO;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cocktails2.Persistence.Data;
 
@@ -97,11 +98,11 @@ public static class DatabaseSeed
             );
         context.SaveChanges();
 
-        var CubaLibre = context.Cocktails.FirstOrDefault(cocktail => cocktail.Name == "Cuba Libre");
+       
         var Lemon = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Lemon");
         var Cola = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Cola");
         var Rum = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Rum");
-        context.IngredientsPortions.AddRange(
+        context.IngredientPortions.AddRange(
             new IngredientPortionDao
             {
                 Ingredient = Rum,
@@ -120,9 +121,16 @@ public static class DatabaseSeed
             );
         context.SaveChanges();
 
-        context.Cocktails.Where(cock => cock.Name == "Cuba Libre").First().IngredientPortions = context.IngredientsPortions.ToList();
+        var CubaLibre = context.Cocktails.Include(cock => cock.IngredientPortions).FirstOrDefault(cocktail => cocktail.Name == "Cuba Libre");
+
+        foreach (var ingr in context.IngredientPortions)
+        {
+            CubaLibre.IngredientPortions.Add(ingr);
+            Console.WriteLine($"Added {ingr.Ingredient.Name} to Cuba Libre's ingredients");
+        }
 
         context.SaveChanges();
+
         Console.WriteLine("Database has been seeded");
     }
 

@@ -1,19 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Cocktails2</PageTitle>
-
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<div class="container-fluid screen">
+    <div class="container-md main-container">
+        <div class="row">
+            <div class="col-md-4">
+                <NavMenu/>
+            </div>
+            <div class="col-md-8">
+                <div class="content-body">
+                    @Body
+                </div>
+            </div>
         </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    </div>
 </div>

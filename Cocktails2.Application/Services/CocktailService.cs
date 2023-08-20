@@ -21,7 +21,7 @@ public class CocktailService : ICocktailService
 
     public async Task<IReadOnlyCollection<Cocktail>> GetAllCocktails()
     {
-        var cocktailDaos = await _context.Cocktails.Include(cock => cock.IngredientPortions).ToListAsync();
+        var cocktailDaos = await _context.Cocktails.Include(cock => cock.IngredientPortions).ThenInclude(x => x.Ingredient).ToListAsync();
         var cocktails = cocktailDaos.ConvertAll( dao => dao.ToDomainEntity() );
         return cocktails;
     }

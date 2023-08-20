@@ -1,16 +1,13 @@
-﻿@page "/fetchdata"
+﻿@page "/"
 @using Cocktails2.Application.Services.Interfaces
 
-@*This should be changed to use dtos instead of domain entities!*@
+@*This should be changed to use dtos instead of domain entities (??)*@
 @using Cocktails2.Domain.Entities
 
 @inject ICocktailService cocktailService
 
 <PageTitle>Weather forecast</PageTitle>
 
-<h1>Weather forecast</h1>
-
-<p>This component demonstrates fetching data from a service.</p>
 
 @if (cocktails == null)
 {
@@ -18,26 +15,19 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
     @foreach (var cock in cocktails)
     {
         <p>@cock.Name</p>
         <p>@cock.Description</p>
+        @if (cock.IngredientPortions != null)
             @foreach(var ingr in cock.IngredientPortions)
             {
-            <p>ingr.Ingredient.Name</p>
+            <p>@ingr.Ingredient.Name</p>
             }
+        else
+        {
+            <p> <b> IngredientPortions null </b>  </p>
+        }
         <p>@cock.PhotoUrl.OriginalString</p>
     }
 }

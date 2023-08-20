@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocktails2", "Cocktails2\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocktails2.Domain", "Cocktails2.Domain\Cocktails2.Domain.csproj", "{04421292-8A82-400C-9DCA-ADAC7CEBA499}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktails2.Application", "Cocktails2.Application\Cocktails2.Application.csproj", "{9F25FA5B-5719-4A68-A584-5DF56938749B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocktails2.Application", "Cocktails2.Application\Cocktails2.Application.csproj", "{9F25FA5B-5719-4A68-A584-5DF56938749B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktails2.Persistence", "Cocktails2.Persistence\Cocktails2.Persistence.csproj", "{5611F0F7-5179-4329-8FC5-0AE594B7C18E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocktails2.Persistence", "Cocktails2.Persistence\Cocktails2.Persistence.csproj", "{5611F0F7-5179-4329-8FC5-0AE594B7C18E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

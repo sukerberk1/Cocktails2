@@ -10,6 +10,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<CocktailDao> Cocktails { get; set; }
     public DbSet<IngredientDao> Ingredients { get; set; }
-    public DbSet<IngredientPortionDao> IngredientsPortions { get; set; }
+    public DbSet<IngredientPortionDao> IngredientPortions { get; set; }
 
 }
