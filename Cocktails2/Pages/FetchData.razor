@@ -15,21 +15,21 @@
 }
 else
 {
-    @foreach (var cock in cocktails)
-    {
-        <p>@cock.Name</p>
-        <p>@cock.Description</p>
-        @if (cock.IngredientPortions != null)
-            @foreach(var ingr in cock.IngredientPortions)
-            {
-            <p>@ingr.Ingredient.Name</p>
-            }
-        else
+    <div class="row">
+        @foreach (var cock in cocktails)
         {
-            <p> <b> IngredientPortions null </b>  </p>
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="@cock.PhotoUrl.OriginalString" class="card-img-top" alt="cocktail photo">
+                    <div class="card-body">
+                        <h5 class="card-title">@cock.Name</h5>
+                        <p class="card-text">@cock.Description.Substring(0,100)...</p>
+                        <NavLink href="#" class="card-link">See more</NavLink>
+                    </div>
+                </div>
+            </div>
         }
-        <p>@cock.PhotoUrl.OriginalString</p>
-    }
+    </div>
 }
 
 @code {

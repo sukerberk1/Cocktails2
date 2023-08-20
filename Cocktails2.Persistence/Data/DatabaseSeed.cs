@@ -6,6 +6,7 @@ using System.Text;
 using Cocktails2.Persistence.DAO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Cocktails2.Domain.Entities;
 
 namespace Cocktails2.Persistence.Data;
 
@@ -82,6 +83,32 @@ public static class DatabaseSeed
                 Creaminess = 0.1,
                 Spiciness = 0, 
                 Strength = 1.2
+            },
+            new IngredientDao
+            {
+                Name = "Espresso",
+                Description = "Espresso is generally thicker than coffee brewed by other methods, with a viscosity similar to that of warm honey. This is due to the higher concentration of suspended and dissolved solids, and the crema on top (a foam with a creamy consistency). As a result of the pressurized brewing process, the flavors and chemicals in a typical cup of espresso are very concentrated.",
+                Type = "Mixer",
+                PhotoUrl = @"https://www.delonghi.com/medias/PL-LP-espresso-perfetto-Hero-mob.jpg?context=bWFzdGVyfHJvb3R8MzAzOTI1fGltYWdlL2pwZWd8aDM0L2g1Ni8xMjgwNDY3Njc4MDA2Mi9QTF9MUF9lc3ByZXNzby1wZXJmZXR0b19IZXJvX21vYi5qcGd8OGU0ZjE2OTBmYzBjMDgzNmE5MzM3ZTYzNzBhNzkyMTQwMzQ0OGM1ODlhZTAxZDVhMTFlNzE4N2JkM2ZjMDQ2Ng",
+                Sourness = 0.3,
+                Sweetness = 0.1,
+                Bitterness = 0.7,
+                Creaminess = 0.1,
+                Spiciness = 0.1,
+                Strength = 1
+            },
+            new IngredientDao
+            {
+                Name= "Coffee Liqueur",
+                Description = "Essentially, coffee liqueur is a blend of two of many people's favorite beverages: coffee and alcohol, plus some sugar to balance it out, come together to give the imbiber a shot of energy and liquid courage at the same time. It can be enjoyed on its own (usually over ice) or mixed into a cocktail.",
+                Type = "Spirit",
+                PhotoUrl = @"https://media.lacucinaitaliana.com/photos/5f85af1d32296c94f6fb7c14/4:5/h_800,c_limit/Coffee%20liqueur%201.jpg",
+                Sourness = 0.1,
+                Sweetness = 0.4,
+                Bitterness = 0.4,
+                Creaminess = 0.2,
+                Spiciness = 0.1,
+                Strength = 1,
             }
             );
         context.SaveChanges();
@@ -122,12 +149,46 @@ public static class DatabaseSeed
         context.SaveChanges();
 
         var CubaLibre = context.Cocktails.Include(cock => cock.IngredientPortions).FirstOrDefault(cocktail => cocktail.Name == "Cuba Libre");
+        CubaLibre.IngredientPortions = context.IngredientPortions.ToList();
+        context.SaveChanges();
 
-        foreach (var ingr in context.IngredientPortions)
-        {
-            CubaLibre.IngredientPortions.Add(ingr);
-            Console.WriteLine($"Added {ingr.Ingredient.Name} to Cuba Libre's ingredients");
-        }
+        var Vodka = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Vodka");
+        var CoffeeLiqueur = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Coffee Liqueur");
+        var Syrup = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Syrup");
+        var Espresso = context.Ingredients.FirstOrDefault(ingredient => ingredient.Name == "Espresso");
+
+        context.Cocktails.Add(
+            new CocktailDao
+            {
+                Name = "Espresso Martini",
+                Description = "The espresso martini, also known as a vodka espresso, is a cold caffeinated alcoholic drink made with espresso, coffee liqueur, and vodka. It is not a true martini as it contains neither gin nor vermouth, but is one of many drinks that incorporate the term martini into their names.",
+                PhotoUrl = @"https://images.immediate.co.uk/production/volatile/sites/30/2020/08/espresso-martini-f099531.jpg?quality=90&webp=true&resize=300,272",
+                Origin = "UnitedKingdom",
+                IngredientPortions = 
+                { 
+                    new IngredientPortionDao
+                    {
+                        Ingredient = Vodka,
+                        Amount = 60,
+                    },
+                    new IngredientPortionDao
+                    {
+                        Ingredient = CoffeeLiqueur,
+                        Amount = 15,
+                    },
+                    new IngredientPortionDao
+                    {
+                        Ingredient = Syrup,
+                        Amount = 15,
+                    },
+                    new IngredientPortionDao
+                    {
+                        Ingredient = Espresso,
+                        Amount = 30
+                    }
+                }
+            }
+            );
 
         context.SaveChanges();
 
