@@ -11,13 +11,13 @@ namespace Cocktails2.Application.Services.Interfaces;
 
 public interface ICocktailService
 {
-    public  Task<IReadOnlyCollection<Cocktail>> GetAllCocktails();
+    public  Task<IReadOnlyCollection<Cocktail>> GetAllCocktailsAsync();
 
-    public  Task<Cocktail> GetCocktailById(int id);
+    public  Task<Cocktail> GetCocktailByIdAsync(int id);
 
-    public Task<IReadOnlyCollection<Cocktail>> GetCocktailsStartingWith(string prompt);
+    public Task<IReadOnlyCollection<Cocktail>> GetCocktailsStartingWithAsync(string prompt);
 
-    public Task AddCocktail(Cocktail cocktail);
+    public Task AddCocktailAsync(Cocktail cocktail);
 
-    public Task ChangeIngredientPortionAmount(IngredientPortion ingredient, int amount);
+    public Task ChangeIngredientPortionAmountAsync(IngredientPortion ingredient, int amount);
 }

@@ -1,12 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cocktails2.Persistence.DAO;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Cocktails2.Persistence.DAO;
 using Microsoft.EntityFrameworkCore;
-using Cocktails2.Domain.Entities;
 
 namespace Cocktails2.Persistence.Data;
 

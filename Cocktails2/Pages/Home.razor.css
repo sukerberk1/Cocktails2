@@ -1,0 +1,14 @@
+﻿.card {
+    height: 100%;
+    margin: auto;
+}
+.card-img-top {
+    aspect-ratio: 1/1;
+}
+.card-wrapper {
+    margin-bottom: 1rem;
+}
+.btn.btn-primary.add-button {
+    margin-top: 3rem;
+    font-weight: bold;
+}

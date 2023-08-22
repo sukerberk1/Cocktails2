@@ -6,7 +6,7 @@
 
 @inject ICocktailService cocktailService
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Cock's cocktails</PageTitle>
 
 
 @if (cocktails == null)
@@ -16,9 +16,20 @@
 else
 {
     <div class="row">
+        <div class="col-md-3 card-wrapper">
+            <div class="card text-center">
+                <div class="card-body mt-2">
+                    <h5 class="card-title">Add your own recipe</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Become a part of cock's cocktails!</h6>
+                    <NavLink class="nav-link" href="/add-cocktail" Match="NavLinkMatch.All">
+                        <div href="#" class="btn btn-primary add-button">+ Add new</div>
+                    </NavLink>
+                </div>
+            </div>
+        </div>
         @foreach (var cock in cocktails)
         {
-            <div class="col-md-3">
+            <div class="col-md-3 card-wrapper">
                 <div class="card" style="width: 18rem;">
                     <img src="@cock.PhotoUrl.OriginalString" class="card-img-top" alt="cocktail photo">
                     <div class="card-body">
@@ -37,6 +48,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        cocktails = await cocktailService.GetAllCocktails();
+        cocktails = await cocktailService.GetAllCocktailsAsync();
     }
 }
