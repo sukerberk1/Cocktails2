@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cocktails2.Domain.Enums
+namespace Cocktails2.Domain.Enums;
+
+public enum CocktailOrigin
 {
-    public enum CocktailOrigin
-    {
-        UnitedStates,
-        UnitedKingdom,
-        Mexico,
-        Italy,
-        France,
-        Japan,
-        Spain,
-        Brazil,
-        Australia,
-        Other
-    }
+    UnitedStates,
+    UnitedKingdom,
+    Mexico,
+    Italy,
+    France,
+    Japan,
+    Spain,
+    Brazil,
+    Australia,
+    Other
 }

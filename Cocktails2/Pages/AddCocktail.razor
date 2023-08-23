@@ -6,89 +6,137 @@
 
 <PageTitle>Cock's cocktails - add a new one</PageTitle>
 
-
-@searchString
-
 <div class="row">
-    <div class="col-md-6">
 
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Search for an ingredient</label>
-            <input type="text" class="form-control" @oninput="(e)=> HandleSearchInput(e.Value.ToString())">
-        </div>
+    @if(!recipeConfirmed)
+    {
+        <div class="col-md-6">
+            <h2>Available ingredients</h2>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Search for an ingredient: </label>
+                <input type="text" class="form-control" @oninput="(e)=> HandleSearchInput(e.Value.ToString())">
+            </div>
 
-        <div class="list-group">
-            @if (availableIngredients == null)
-            {
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Loading...</h5>
-                    </div>
-                </a>
-            }
-            else
-            {
-                @foreach (var ingredient in availableIngredients)
+            <div class="list-group  ingredient-box">
+                @if (availableIngredients == null)
                 {
-                    if (chosenIngredients.Contains(ingredient))
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Loading...</h5>
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    @foreach (var ingredient in availableIngredients)
                     {
-                        <div class="card mb-3  bg-secondary" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">@ingredient.Name</h5>
-                                    <p class="card-text">@ingredient.Description</p>
-                                    <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), ingredient.Type)</small></p>
+                        if (ingredientPortions.ConvertAll(i => i.Ingredient).Contains(ingredient))
+                        {
+                            <div class="card mb-3  bg-secondary" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@ingredient.Name</h5>
+                                            <p class="card-text">@ingredient.Description</p>
+                                            <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), ingredient.Type)</small></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    }
-                    else
-                    {
-                    <div class="card mb-3" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">@ingredient.Name</h5>
-                                    <p class="card-text">@ingredient.Description</p>
-                                    <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), ingredient.Type)</small></p>
+                        }
+                        else
+                        {
+                            <div class="card mb-3" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@ingredient.Name</h5>
+                                            <p class="card-text">@ingredient.Description</p>
+                                            <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), ingredient.Type)</small></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        }
                     }
                 }
-            }
 
+            </div>
         </div>
-    </div>
+    }
+
+
 
     <div class="col-md-6">
-        @foreach(var chosenIngredient in chosenIngredients)
-        {
-            <div class="card mb-3" style="max-width: 540px;" @onclick="()=>RemoveIngredient(chosenIngredient)">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="@chosenIngredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">@chosenIngredient.Name</h5>
-                            <p class="card-text">@chosenIngredient.Description</p>
-                            <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), chosenIngredient.Type)</small></p>
+        <h2>Chosen ingredients</h2>
+        <div class="list-group portion-box">
+            @foreach(var ingredientPortion in ingredientPortions)
+            {
+                <div class="card mb-3" style="max-width: 540px;" >
+                    @if(!recipeConfirmed)
+                    {
+                        <button type="button" class="btn-close close-card" data-bs-dismiss="modal" aria-label="Close" @onclick="()=>RemoveIngredient(ingredientPortion)"></button>
+                    }
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="@ingredientPortion.Ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
                         </div>
+                        <div class="col-md-8 mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@ingredientPortion.Ingredient.Name</h5>
+                                <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), ingredientPortion.Ingredient.Type)</small></p>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Amount:</label>
+                                    <input type="text" class="form-control" @bind-value="ingredientPortion.Amount"/>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+            }
+        </div>
+
+
+
+
+        @if(ingredientPortions.Count > 2 && !recipeConfirmed)
+        {
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="button" @onclick="ToggleConfirmRecipe">Create a recipe</button>
             </div>
         }
+
     </div>
+
+    @if(recipeConfirmed)
+    {
+        <div class="col-md-6">
+            <h2>Fill up the details</h2>
+            <div class="mb-3">
+                <label for="CocktailNameInput" class="form-label">Cocktail's name</label>
+                <input type="text" id="CocktailNameInput" class="form-control" @bind-value="cocktail.Name">
+            </div>
+            <div class="mb-3">
+                <label for="CocktailDescriptionInput" class="form-label">Cocktail's description</label>
+                <InputTextArea class="form-control" @bind-Value="cocktail.Description"/>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected>Open this select menu</option>
+                    @foreach(var origin in Enum.GetValues(typeof(CocktailOrigin)))
+                    {
+                        <option value="1">@origin.ToString()</option>
+                    }
+                </select>
+            </div>
+
+        </div>
+    }
 
 </div>
 
@@ -100,9 +148,11 @@
 
     private List<Ingredient> availableIngredients = new();
 
-    private List<Ingredient> chosenIngredients = new();
+    private List<IngredientPortion> ingredientPortions = new();
 
-    private string searchString = String.Empty;
+    private bool recipeConfirmed = false;
+
+    private Cocktail cocktail = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,22 +162,28 @@
 
     private void ChooseIngredient(Ingredient ingr)
     {
-        if (!chosenIngredients.Contains(ingr))
-            chosenIngredients.Add(ingr);
+        if (!ingredientPortions.ConvertAll(i=>i.Ingredient).Contains(ingr))
+            ingredientPortions.Add(
+                new IngredientPortion { Ingredient = ingr }
+            );
     }
-    private void RemoveIngredient(Ingredient ingr)
+    private void RemoveIngredient(IngredientPortion ingr)
     {
-        chosenIngredients.Remove(ingr);
+        ingredientPortions.Remove(ingr);
     }
 
     private void HandleSearchInput(string search)
     {
-        searchString = search;
         if (search == null)
         {
             availableIngredients = ingredients;
             return;
         }
         availableIngredients = ingredients.Where(ingr => ingr.Name.ToLower().StartsWith(search.ToLower())).ToList();
+    }
+
+    private void ToggleConfirmRecipe()
+    {
+        recipeConfirmed = !recipeConfirmed;
     }
 }
