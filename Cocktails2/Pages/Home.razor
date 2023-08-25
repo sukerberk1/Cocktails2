@@ -3,6 +3,7 @@
 
 @*This should be changed to use dtos instead of domain entities (??)*@
 @using Cocktails2.Domain.Entities
+@using Cocktails2.Persistence.DAO
 
 @inject ICocktailService cocktailService
 
@@ -45,6 +46,7 @@ else
 
 @code {
     private IReadOnlyCollection<Cocktail> cocktails = new List<Cocktail>();
+    private IEnumerable<CocktailDao> cocktailDaos = new List<CocktailDao>();
 
     protected override async Task OnInitializedAsync()
     {

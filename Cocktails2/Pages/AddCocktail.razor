@@ -2,7 +2,9 @@
 @using Cocktails2.Application.Services.Interfaces
 @using Cocktails2.Domain.Entities
 @using Cocktails2.Domain.Enums
+@using Cocktails2.Domain.Extensions
 @inject IIngredientService ingredientService
+@inject ICocktailService cocktailService
 
 <PageTitle>Cock's cocktails - add a new one</PageTitle>
 
@@ -125,17 +127,29 @@
             </div>
             <div class="mb-3">
                 <label for="CocktailDescriptionInput" class="form-label">Cocktail's description</label>
-                <InputTextArea class="form-control" @bind-Value="cocktail.Description"/>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>Open this select menu</option>
-                    @foreach(var origin in Enum.GetValues(typeof(CocktailOrigin)))
+                <InputTextArea class="form-control mb-3" @bind-Value="cocktail.Description"/>
+                <label for="CocktailOriginInput" class="form-label">Pick cocktail's origin</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" @bind="cocktail.Origin">
+                    <option disabled selected>Open this select menu</option>
+                    @foreach(CocktailOrigin origin in Enum.GetValues(typeof(CocktailOrigin)))
                     {
-                        <option value="1">@origin.ToString()</option>
+                        <option value="@origin.ToString()">@origin.ToDisplay()</option>
                     }
                 </select>
             </div>
 
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="button" @onclick="HandleAddCocktail">Create a cocktail</button>
+            </div>
         </div>
+
+        if(creationSuccess)
+        {
+            <div class="alert alert-success" role="alert">
+                Cocktail added.
+            </div>
+        }
+
     }
 
 </div>
@@ -151,6 +165,7 @@
     private List<IngredientPortion> ingredientPortions = new();
 
     private bool recipeConfirmed = false;
+    private bool creationSuccess = false;
 
     private Cocktail cocktail = new();
 
@@ -185,5 +200,17 @@
     private void ToggleConfirmRecipe()
     {
         recipeConfirmed = !recipeConfirmed;
+    }
+
+    private async Task HandleAddCocktail()
+    {
+        cocktail.IngredientPortions = ingredientPortions;
+        cocktail.PhotoUrl = new Uri("https://assets.bonappetit.com/photos/62cdd8cedc3e934b224d8fb5/4:3/w_2132,h_1599,c_limit/0712-paloma-lede.jpg");
+        cocktail.CreatedOn = DateTime.Now;
+        cocktail.UpdatedOn = DateTime.Now;
+        Console.WriteLine("Adding cocktail...");
+        await cocktailService.AddCocktailAsync(cocktail);
+        Console.WriteLine("Cocktail added.");
+        creationSuccess = true;
     }
 }

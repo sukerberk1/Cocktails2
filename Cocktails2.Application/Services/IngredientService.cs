@@ -27,7 +27,7 @@ internal class IngredientService : IIngredientService
 
     public async Task<IReadOnlyCollection<Ingredient>> GetAllIngredientsAsync()
     {
-        var ingredientDaos = await _context.Ingredients.ToListAsync();
+        var ingredientDaos = await _context.Ingredients.AsNoTracking().ToListAsync();
         return ingredientDaos.ConvertAll(ingredient => ingredient.ToDomainEntity());
     }
 

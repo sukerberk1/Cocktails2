@@ -13,7 +13,7 @@ public class CocktailService : ICocktailService
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger _logger;
-    public CocktailService(ApplicationDbContext context, ILogger<CocktailService> logger) 
+    public CocktailService(ApplicationDbContext context, ILogger<CocktailService> logger)
     { 
         _context = context;
         _logger = logger;
@@ -21,7 +21,7 @@ public class CocktailService : ICocktailService
 
     public async Task<IReadOnlyCollection<Cocktail>> GetAllCocktailsAsync()
     {
-        var cocktailDaos = await _context.Cocktails.Include(cock => cock.IngredientPortions).ThenInclude(x => x.Ingredient).ToListAsync();
+        var cocktailDaos = await _context.Cocktails.AsNoTracking().Include(cock => cock.IngredientPortions).ThenInclude(x => x.Ingredient).ToListAsync();
         var cocktails = cocktailDaos.ConvertAll( dao => dao.ToDomainEntity() );
         return cocktails;
     }
