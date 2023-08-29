@@ -2,7 +2,10 @@
 @using Cocktails2.Domain.Enums
 @using Cocktails2.Application.Services.Interfaces
 @using Cocktails2.Domain.Extensions
+@using Cocktails2.Pages.Components
 @inject ICocktailService cocktailService
+
+<button type="button" class="btn btn-secondary mt-3" @onclick="ToggleRecipe.Invoke">Go back</button>
 
 <h2 class="text-center mt-3 mb-3">Fill up the recipe</h2>
 
@@ -20,7 +23,9 @@
                         <p class="card-text">@portion.Ingredient.Description</p>
                         <div class="row">
                             <div class="col-auto">Quantity: </div>
-                            <div class="col-auto"><input class="form-control" type="text" aria-label="ingredient-quantity"></div>
+                            <div class="col-auto">
+                                <input class="form-control" type="text" aria-label="ingredient-quantity" @bind-value="portion.Amount">
+                                </div>
                             <div class="col-auto">
                                 @if (portion.Ingredient.Type == IngredientType.Other || portion.Ingredient.Type == IngredientType.Garnish)
                                 {
@@ -58,8 +63,16 @@
     }
 </select>
 
-<div class="d-grid gap-2 mb-5 mt-2">
-    @if(creationSuccess)
+<h2 class="text-center mb-3 mt-3">Preview</h2>
+
+@if(showPreview)
+{
+    <CocktailPreviewModal cocktail="cocktail"></CocktailPreviewModal>
+}
+
+
+<div class="d-grid gap-3 mb-5 mt-4">
+    @if (creationSuccess)
     {
         <button class="btn btn-success" type="button" disabled>Cocktail added!</button>
     }
@@ -67,8 +80,9 @@
     {
         <button class="btn btn-primary" type="button" @onclick="HandleAddCocktail">Create a cocktail</button>
     }
-    
+
 </div>
+
 
 @code {
     [Parameter]
@@ -79,7 +93,15 @@
 
     private Cocktail cocktail = new();
 
+    private bool showPreview = true;
+
     private bool creationSuccess = false;
+
+    protected override Task OnInitializedAsync()
+    {
+        cocktail.IngredientPortions = IngredientPortions;
+        return base.OnInitializedAsync();
+    }
 
 
     private async Task HandleAddCocktail()
@@ -89,8 +111,18 @@
         cocktail.CreatedOn = DateTime.Now;
         cocktail.UpdatedOn = DateTime.Now;
         Console.WriteLine("Adding cocktail...");
-        await cocktailService.AddCocktailAsync(cocktail);
-        Console.WriteLine("Cocktail added.");
+        try
+        {
+            await cocktailService.AddCocktailAsync(cocktail);
+        }
+        catch
+        {
+            Console.WriteLine("Cocktail creation failed");
+        }
+        finally
+        {
+            Console.WriteLine("Cocktail added.");
+        }
         creationSuccess = true;
     }
 }

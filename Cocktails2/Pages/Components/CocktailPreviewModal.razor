@@ -1,0 +1,72 @@
+﻿@using Cocktails2.Domain.Entities
+@using Cocktails2.Domain.Extensions
+@using Cocktails2.Domain.Enums
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card mb-3">
+            @if (cocktail.PhotoUrl != null)
+            {
+                <img src="@cocktail.PhotoUrl.OriginalString" class="card-img-top" alt="...">
+            }
+            else
+            {
+                <img src="https://assets.bonappetit.com/photos/62cdd8cedc3e934b224d8fb5/4:3/w_2132,h_1599,c_limit/0712-paloma-lede.jpg" class="card-img-top" alt="...">
+            }
+
+            <div class="card-body">
+                @if(cocktail.Name != null)
+                {
+                    <h5 class="card-title">@cocktail.Name</h5>
+                }
+                else
+                {
+                    <h5 class="card-title">No name provided</h5>
+                }
+                @if(cocktail.Description != null)
+                {
+                    <p class="card-text">@cocktail.Description</p>
+                }
+                else
+                {
+                    <p class="card-text">No description provided</p>
+                }
+
+                <ul class="list-group list-group-flush mb-2">
+                    @if(cocktail.IngredientPortions != null)
+                        @foreach(var ingredientPortion in cocktail.IngredientPortions)
+                        {
+                            <li class="list-group-item">
+                                @ingredientPortion.Ingredient.Name - @ingredientPortion.Amount 
+                                @if (ingredientPortion.Ingredient.Type == IngredientType.Other || ingredientPortion.Ingredient.Type == IngredientType.Garnish)
+                                {
+                                    <span> slices/pieces</span>
+                                }
+                                else
+                                {
+                                    <span> mililiters</span>
+                                }
+                            </li>
+                        }
+                    else
+                    {
+                        <li class="list-group-item">Example ingredient 1 - 20 ml</li>
+                        <li class="list-group-item">Example ingredient 2 - 100 ml</li>
+                        <li class="list-group-item">Example ingredient 3 - 2 slices</li>
+                    }
+                </ul>
+
+
+                <p class="card-text"><small class="text-body-secondary">Origin: @cocktail.Origin.ToDisplay()</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+@code {
+
+    [Parameter]
+    public Cocktail cocktail { get; set; }
+}

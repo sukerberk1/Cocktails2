@@ -26,9 +26,9 @@
             {
                 @foreach (var ingredient in availableIngredients)
                 {
-                    if (IngredientPortions.ConvertAll(i => i.Ingredient).Contains(ingredient))
+                    if (chosenIngredients.ConvertAll(i => i.Ingredient).Contains(ingredient))
                     {
-                        <div class="card mb-3  bg-secondary" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
+                        <div class="card mb-3 bg-secondary" style="max-width: 540px;" >
                             <div class="row g-0">
                                 <div class="col-md-4">
                                     <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
@@ -68,10 +68,10 @@
 
     <div class="col-md-6">
         <h2>Chosen ingredients</h2>
-
+        <label for="exampleInputEmail1" class="form-label">To create a recipe you need at least 3 ingredients </label>
 
         <div class="list-group  ingredient-box">
-            @if (IngredientPortions == null)
+            @if (chosenIngredients == null)
             {
                 <a href="#" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
@@ -81,11 +81,11 @@
             }
             else
             {
-                @foreach (var ingredient in IngredientPortions.ConvertAll(i=> i.Ingredient))
+                @foreach (var ingredient in chosenIngredients.ConvertAll(i=> i.Ingredient))
                 {
-                    if (IngredientPortions.ConvertAll(i => i.Ingredient).Contains(ingredient))
-                    {
-                        <div class="card mb-3  bg-secondary" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
+
+                        <div class="card mb-3" style="max-width: 540px;">
+                        <button type="button" class="btn-close close-card" aria-label="Close" @onclick="()=>RemoveIngredient(ingredient)"></button>
                             <div class="row g-0">
                                 <div class="col-md-4">
                                     <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
@@ -99,33 +99,15 @@
                                 </div>
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="card mb-3" style="max-width: 540px;" @onclick="()=>ChooseIngredient(ingredient)">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="@ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="ingredient photo">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@ingredient.Name</h5>
-                                        <p class="card-text">@ingredient.Description</p>
-                                        <p class="card-text"><small class="text-muted">@Enum.GetName(typeof(IngredientType), ingredient.Type)</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
                 }
             }
 
         </div>
 
         <div class="mb-3 mt-3">
-            <label for="exampleInputEmail1" class="form-label">To create a recipe you need at least 3 ingredients </label>
+            
             <div class="d-grid gap-2">
-                @if(IngredientPortions != null && IngredientPortions.Count >= 3)
+                @if(chosenIngredients != null && chosenIngredients.Count >= 3)
                 {
                     <button class="btn btn-primary" type="button" @onclick="ToggleRecipe.Invoke">Next</button>
                 }
@@ -148,7 +130,7 @@
 @code {
 
     [Parameter]
-    public List<IngredientPortion> IngredientPortions { get; set; }
+    public List<IngredientPortion> chosenIngredients { get; set; }
 
     [Parameter]
     public Action ToggleRecipe { get; set; }
@@ -165,14 +147,14 @@
 
     private void ChooseIngredient(Ingredient ingr)
     {
-        if (!IngredientPortions.ConvertAll(i => i.Ingredient).Contains(ingr))
-            IngredientPortions.Add(
+        if (!chosenIngredients.ConvertAll(i => i.Ingredient).Contains(ingr))
+            chosenIngredients.Add(
                 new IngredientPortion { Ingredient = ingr }
             );
     }
-    private void RemoveIngredient(IngredientPortion ingr)
+    private void RemoveIngredient(Ingredient ingr)
     {
-        IngredientPortions.Remove(ingr);
+        chosenIngredients.Remove(chosenIngredients.FirstOrDefault( i=>i.Ingredient == ingr) );
     }
 
     private void HandleSearchInput(string search)
