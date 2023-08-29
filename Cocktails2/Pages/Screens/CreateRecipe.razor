@@ -4,7 +4,6 @@
 @inject IIngredientService ingredientService
 
 
-
 <div class="row">
     <div class="col-md-6">
         <h2>Available ingredients</h2>
@@ -83,7 +82,6 @@
             {
                 @foreach (var ingredient in chosenIngredients.ConvertAll(i=> i.Ingredient))
                 {
-
                         <div class="card mb-3" style="max-width: 540px;">
                         <button type="button" class="btn-close close-card" aria-label="Close" @onclick="()=>RemoveIngredient(ingredient)"></button>
                             <div class="row g-0">
@@ -99,7 +97,8 @@
                                 </div>
                             </div>
                         </div>
-                }
+                    }
+
             }
 
         </div>
@@ -124,8 +123,6 @@
 
 
 </div>
-
-
 
 @code {
 
