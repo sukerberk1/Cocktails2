@@ -1,0 +1,13 @@
+﻿body {
+}
+.image-wrapper{
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+}
+.modal-image{
+    display: block;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    max-width: fit-content;
+}
