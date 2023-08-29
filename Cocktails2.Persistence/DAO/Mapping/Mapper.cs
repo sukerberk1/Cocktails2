@@ -70,6 +70,7 @@ public static class Mapper
 
     public static IngredientPortionDao ToDao(this IngredientPortion entity) => new()
     {
+        Id = entity.Id,
         IngredientId = entity.Ingredient.Id,
         Ingredient = entity.Ingredient.ToDao(),
         Amount = entity.Amount,
@@ -77,6 +78,7 @@ public static class Mapper
 
     public static IngredientPortion ToDomainEntity(this IngredientPortionDao dao) => new()
     {
+        Id = dao.Id,
         Ingredient = dao.Ingredient.ToDomainEntity(),
         Amount = dao.Amount,
     };

@@ -1,0 +1,96 @@
+﻿@using Cocktails2.Domain.Entities
+@using Cocktails2.Domain.Enums
+@using Cocktails2.Application.Services.Interfaces
+@using Cocktails2.Domain.Extensions
+@inject ICocktailService cocktailService
+
+<h2 class="text-center mt-3 mb-3">Fill up the recipe</h2>
+
+
+    @foreach (IngredientPortion portion in IngredientPortions)
+{
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@portion.Ingredient.PhotoUrl.OriginalString" class="img-fluid rounded-start card-img" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@portion.Ingredient.Name</h5>
+                        <p class="card-text">@portion.Ingredient.Description</p>
+                        <div class="row">
+                            <div class="col-auto">Quantity: </div>
+                            <div class="col-auto"><input class="form-control" type="text" aria-label="ingredient-quantity"></div>
+                            <div class="col-auto">
+                                @if (portion.Ingredient.Type == IngredientType.Other || portion.Ingredient.Type == IngredientType.Garnish)
+                                {
+                                    <span>slices/pieces</span>
+                                }
+                                else
+                                {
+                                    <span>mililiters</span>
+                                }
+                            </div>
+                        </div>
+                            
+
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+
+
+<h2 class="mb-5 mt-5 text-center"> Complete the details </h2>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" id="floatingInput1" @bind-value="cocktail.Name">
+    <label for="floatingInput1">Cocktail's name</label>
+</div>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" id="floatingInput2" @bind-value="cocktail.Description">
+    <label for="floatingInput2">Cocktail's description</label>
+</div>
+<label>Choose cocktail's origin:</label>
+<select class="form-select mb-3" aria-label="Default select example" @bind="cocktail.Origin">
+    @foreach (CocktailOrigin origin in Enum.GetValues(typeof(CocktailOrigin)))
+    {
+        <option>@origin.ToDisplay()</option>
+    }
+</select>
+
+<div class="d-grid gap-2 mb-5 mt-2">
+    @if(creationSuccess)
+    {
+        <button class="btn btn-success" type="button" disabled>Cocktail added!</button>
+    }
+    else
+    {
+        <button class="btn btn-primary" type="button" @onclick="HandleAddCocktail">Create a cocktail</button>
+    }
+    
+</div>
+
+@code {
+    [Parameter]
+    public List<IngredientPortion> IngredientPortions { get; set; }
+
+    [Parameter]
+    public Action ToggleRecipe { get; set; }
+
+    private Cocktail cocktail = new();
+
+    private bool creationSuccess = false;
+
+
+    private async Task HandleAddCocktail()
+    {
+        cocktail.IngredientPortions = IngredientPortions;
+        cocktail.PhotoUrl = new Uri("https://assets.bonappetit.com/photos/62cdd8cedc3e934b224d8fb5/4:3/w_2132,h_1599,c_limit/0712-paloma-lede.jpg");
+        cocktail.CreatedOn = DateTime.Now;
+        cocktail.UpdatedOn = DateTime.Now;
+        Console.WriteLine("Adding cocktail...");
+        await cocktailService.AddCocktailAsync(cocktail);
+        Console.WriteLine("Cocktail added.");
+        creationSuccess = true;
+    }
+}

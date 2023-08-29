@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.card-img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.card {
+    position: relative;
+}
+
+.btn-close.close-card {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.ingredient-box {
+    max-height: 40rem;
+    overflow-y: scroll;
+}
+
+.portion-box {
+    max-height: 43rem;
+    overflow-y: scroll;
+}
