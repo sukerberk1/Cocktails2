@@ -59,7 +59,7 @@
 <select class="form-select mb-3" aria-label="Default select example" @bind="cocktail.Origin">
     @foreach (CocktailOrigin origin in Enum.GetValues(typeof(CocktailOrigin)))
     {
-        <option>@origin.ToDisplay()</option>
+        <option value="@origin.ToString()">@origin.ToDisplay()</option>
     }
 </select>
 
@@ -110,18 +110,17 @@
         cocktail.PhotoUrl = new Uri("https://assets.bonappetit.com/photos/62cdd8cedc3e934b224d8fb5/4:3/w_2132,h_1599,c_limit/0712-paloma-lede.jpg");
         cocktail.CreatedOn = DateTime.Now;
         cocktail.UpdatedOn = DateTime.Now;
+        if (cocktail.Name == null) cocktail.Name = "";
+        if (cocktail.Description == null) cocktail.Description = "";
         Console.WriteLine("Adding cocktail...");
         try
         {
             await cocktailService.AddCocktailAsync(cocktail);
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex);
             Console.WriteLine("Cocktail creation failed");
-        }
-        finally
-        {
-            Console.WriteLine("Cocktail added.");
         }
         creationSuccess = true;
     }

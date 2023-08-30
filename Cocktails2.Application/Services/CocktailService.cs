@@ -5,6 +5,7 @@ using Cocktails2.Application.Services.Interfaces;
 using Cocktails2.Persistence.Data;
 using Cocktails2.Persistence.DAO.Mapping;
 using Cocktails2.Persistence.DAO;
+using Cocktails2.Domain.Enums;
 
 namespace Cocktails2.Application.Services;
 
@@ -40,10 +41,17 @@ public class CocktailService : ICocktailService
 
     public async Task AddCocktailAsync(Cocktail cocktail)
     {
-        _context.Cocktails.Add( cocktail.ToDao() );
+        CocktailDao cocktailDao = cocktail.ToDao();
+
+        foreach (var ingr in cocktailDao.IngredientPortions.ConvertAll(ip=>ip.Ingredient))
+        {
+            _context.Attach(ingr);
+        }
+        _context.Add(cocktailDao);
+
         await _context.SaveChangesAsync();
     }
-     
+
     public async Task ChangeIngredientPortionAmountAsync(IngredientPortion ingredient, int amount)
     {
         throw new NotImplementedException();

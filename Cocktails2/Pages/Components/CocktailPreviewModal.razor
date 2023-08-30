@@ -16,21 +16,21 @@
             }
 
             <div class="card-body">
-                @if(cocktail.Name != null)
-                {
-                    <h5 class="card-title">@cocktail.Name</h5>
-                }
-                else
+                @if(cocktail.Name == null || cocktail.Name == "")
                 {
                     <h5 class="card-title">No name provided</h5>
                 }
-                @if(cocktail.Description != null)
+                else
                 {
-                    <p class="card-text">@cocktail.Description</p>
+                    <h5 class="card-title">@cocktail.Name</h5>
+                }
+                @if(cocktail.Description == null || cocktail.Description == "")
+                {
+                    <p class="card-text">No description provided</p>
                 }
                 else
                 {
-                    <p class="card-text">No description provided</p>
+                    <p class="card-text">@cocktail.Description</p>
                 }
 
                 <ul class="list-group list-group-flush mb-2">

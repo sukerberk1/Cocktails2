@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Cocktails2.Persistence.DAO.Interfaces;
 
+
+/* This interface is not used at the moment. */
 public interface IDataAccessObject
 {
+    public int Id { get; set; }
     public Cocktail ToDomainEntity();
 }
