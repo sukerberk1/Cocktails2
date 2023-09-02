@@ -15,5 +15,18 @@ namespace Cocktails2.Domain.Entities
         public Uri PhotoUrl { get; set; }
         public CocktailOrigin Origin { get; set; }
         public ICollection<IngredientPortion> IngredientPortions { get; set; }
+
+        public bool IsValid()
+        {
+            if (Name != null && Name.Length > 3 &&
+                Description != null && Description.Length > 10 &&
+                PhotoUrl != null &&
+                IngredientPortions != null &&
+                IngredientPortions.All(ip=>ip.Amount > 0)
+                ) return true;
+            else
+            return false;
+        }
+
     }
 }
