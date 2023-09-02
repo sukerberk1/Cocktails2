@@ -16,5 +16,6 @@ namespace Cocktails2.Domain.Entities
         public double Spiciness { get; init; }
         // strength is a 'multplier' of the taste. Default for alcohols and mixers: 1 
         public double Strength { get; init; }
+
     }
 }

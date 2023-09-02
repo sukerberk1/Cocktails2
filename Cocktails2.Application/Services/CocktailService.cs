@@ -29,7 +29,7 @@ public class CocktailService : ICocktailService
 
     public async Task<Cocktail> GetCocktailByIdAsync(int id)
     {
-        var cocktailDao = await _context.Cocktails.FindAsync(id);
+        var cocktailDao = await _context.Cocktails.Where(o => o.Id == id).Include(c => c.IngredientPortions).ThenInclude(ip => ip.Ingredient).FirstOrDefaultAsync();
         return cocktailDao.ToDomainEntity();
     }
     

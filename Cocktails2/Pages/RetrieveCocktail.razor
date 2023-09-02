@@ -1,0 +1,53 @@
+﻿@page "/cocktails/{CocktailId:int}"
+@using Cocktails2.Domain.Entities
+@using Cocktails2.Domain.Enums
+@using Cocktails2.Application.Services.Interfaces
+@inject ICocktailService cocktailService
+
+<div class="row">
+    <div class="col-md-6">
+        <NavLink href="/">
+            <button type="button" class="btn btn-secondary my-4">Go back</button>
+        </NavLink>
+        <h1 class="my-3">@cocktail.Name</h1>
+        <p>@cocktail.Description</p>
+        <ul class="list-group list-group-flush">
+            @foreach (IngredientPortion ingr in cocktail.IngredientPortions)
+            {
+            <li class="list-group-item">@ingr.Ingredient.Name - @ingr.Amount
+                    @if (ingr.Ingredient.Type == IngredientType.Other || ingr.Ingredient.Type == IngredientType.Garnish)
+                    {
+                        <span> slices/pieces</span>
+                    }
+                    else
+                    {
+                        <span> mililiters</span>
+                    }
+            
+            </li>
+            }
+        </ul>
+        @if(cocktail.IngredientPortions.ToList().Count == 0)
+        {
+            <p>No ingredients detected. Error might have occured.</p>
+        }
+
+        <h3 class="my-3">Taste experience</h3>
+        <p>Todo! - taste experience</p>
+    </div>
+    <div class="col-md-6">
+        <img src="@cocktail.PhotoUrl.OriginalString"/>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int CocktailId { get; set; }
+
+    public Cocktail cocktail = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        cocktail = await cocktailService.GetCocktailByIdAsync(CocktailId);
+    }
+}

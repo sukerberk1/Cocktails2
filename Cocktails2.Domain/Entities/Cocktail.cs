@@ -28,5 +28,11 @@ namespace Cocktails2.Domain.Entities
             return false;
         }
 
+        public (double, double, double, double) GetTasteExperience()
+        {
+            //TODO!
+            return (1, 1, 1, 1);
+        }
+
     }
 }
