@@ -33,7 +33,13 @@
         }
 
         <h3 class="my-3">Taste experience</h3>
-        <p>Todo! - taste experience</p>
+        
+        @foreach(var taste in tasteExperience)
+        {
+            <p>@taste.Key : @taste.Value</p>
+        }
+
+
     </div>
     <div class="col-md-6">
         <img src="@cocktail.PhotoUrl.OriginalString"/>
@@ -46,8 +52,11 @@
 
     public Cocktail cocktail = new();
 
+    public Dictionary<string, double> tasteExperience = new();
+
     protected override async Task OnInitializedAsync()
     {
         cocktail = await cocktailService.GetCocktailByIdAsync(CocktailId);
+        tasteExperience = cocktail.GetTasteExperience();
     }
 }
