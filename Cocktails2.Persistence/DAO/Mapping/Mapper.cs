@@ -1,5 +1,6 @@
 ﻿using Cocktails2.Domain.Entities;
 using Cocktails2.Domain.Enums;
+using Cocktails2.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Runtime.CompilerServices;
 
@@ -36,7 +37,7 @@ public static class Mapper
         Id = dao.Id,
         Name = dao.Name,
         Description = dao.Description,
-        PhotoUrl = new Uri(dao.PhotoUrl),
+        Photo = new Picture(dao.Photo),
         CreatedOn = dao.CreatedOn,
         UpdatedOn = dao.UpdatedOn,
         Type = (IngredientType)Enum.Parse(typeof(IngredientType), dao.Type),
@@ -56,7 +57,7 @@ public static class Mapper
         Id = entity.Id,
         Name = entity.Name,
         Description = entity.Description,
-        PhotoUrl = entity.PhotoUrl.OriginalString,
+        Photo = entity.Photo.ImageData,
         CreatedOn = entity.CreatedOn,
         UpdatedOn = entity.UpdatedOn,
         Type = entity.Type.ToString(),

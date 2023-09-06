@@ -13,7 +13,7 @@ namespace Cocktails2.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Uri PhotoUrl { get; set; }
+        public Picture Photo { get; set; }
         public IngredientType Type { get; set; }
         public TasteParameters TasteParameters { get; set; }
     }

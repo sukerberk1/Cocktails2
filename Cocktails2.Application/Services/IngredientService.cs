@@ -25,6 +25,12 @@ internal class IngredientService : IIngredientService
         _logger = logger;
     }
 
+    public async Task AddIngredient(Ingredient ingredient)
+    {
+        await _context.Ingredients.AddAsync(ingredient.ToDao());
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<IReadOnlyCollection<Ingredient>> GetAllIngredientsAsync()
     {
         var ingredientDaos = await _context.Ingredients.AsNoTracking().ToListAsync();
@@ -40,5 +46,12 @@ internal class IngredientService : IIngredientService
     public Task<Ingredient> GetIngredientByNameAsync(string name)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task UpdateIngredient(Ingredient ingredient)
+    {
+        var dao = ingredient.ToDao();
+        _context.Entry(dao).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
     }
 }
