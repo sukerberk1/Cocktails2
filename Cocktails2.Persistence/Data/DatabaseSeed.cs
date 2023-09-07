@@ -109,7 +109,7 @@ public static class DatabaseSeed
             {
                 Name = "Cuba Libre",
                 Description = "Most accounts, including Cid's, of the creation of the Cuba Libre, agree that it dates back to Havana around 1900, after the Spanish-American War, which began and ended in 1898 and led to Cuban independence. The name of the drink, Cuba Libre, means “Free Cuba,” which was the battle cry of the Cuban Liberation Army.",
-                PhotoUrl = @"https://www.liquor.com/thmb/cpSgrrmR7SDnFDfvI150WYsF-Fo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__liquor__2018__01__02105149__Cuba-Libre-720x720-recipe-673b48bbef034d89b6b5149b8417c7d5.jpg",
+                Photo = await ImageConverterService.ConvertUriToByteArrayAsync(@"https://www.liquor.com/thmb/cpSgrrmR7SDnFDfvI150WYsF-Fo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__liquor__2018__01__02105149__Cuba-Libre-720x720-recipe-673b48bbef034d89b6b5149b8417c7d5.jpg"),
                 Origin = "Other",
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now,
@@ -154,7 +154,7 @@ public static class DatabaseSeed
             {
                 Name = "Espresso Martini",
                 Description = "The espresso martini, also known as a vodka espresso, is a cold caffeinated alcoholic drink made with espresso, coffee liqueur, and vodka. It is not a true martini as it contains neither gin nor vermouth, but is one of many drinks that incorporate the term martini into their names.",
-                PhotoUrl = @"https://images.immediate.co.uk/production/volatile/sites/30/2020/08/espresso-martini-f099531.jpg?quality=90&webp=true&resize=300,272",
+                Photo = await ImageConverterService.ConvertUriToByteArrayAsync(@"https://images.immediate.co.uk/production/volatile/sites/30/2020/08/espresso-martini-f099531.jpg?quality=90&webp=true&resize=300,272"),
                 Origin = "UnitedKingdom",
                 IngredientPortions = 
                 { 

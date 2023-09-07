@@ -1,5 +1,6 @@
 ﻿using Cocktails2.Domain.Common;
 using Cocktails2.Domain.Enums;
+using Cocktails2.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Cocktails2.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Uri PhotoUrl { get; set; }
+        public Picture Photo { get; set; }
         public CocktailOrigin Origin { get; set; }
         public ICollection<IngredientPortion> IngredientPortions { get; set; }
 
@@ -21,7 +22,7 @@ namespace Cocktails2.Domain.Entities
         {
             if (Name != null && Name.Length > 3 &&
                 Description != null && Description.Length > 10 &&
-                PhotoUrl != null &&
+                Photo != null &&
                 IngredientPortions != null &&
                 IngredientPortions.All(ip=>ip.Amount > 0)
                 ) return true;

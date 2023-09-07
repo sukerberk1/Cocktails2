@@ -32,7 +32,7 @@ else
         {
             <div class="col-md-3 card-wrapper">
                 <div class="card" style="width: 18rem;">
-                    <img src="@cock.PhotoUrl.OriginalString" class="card-img-top" alt="cocktail photo">
+                    <img src="@cock.Photo.ImageSource()" class="card-img-top" alt="cocktail photo">
                     <div class="card-body">
                         <h5 class="card-title">@cock.Name</h5>
                         @if(cock.Description.Length >=100 )

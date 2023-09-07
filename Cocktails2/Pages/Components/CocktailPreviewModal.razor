@@ -6,9 +6,9 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <div class="card mb-3">
-            @if (cocktail.PhotoUrl != null)
+            @if (cocktail.Photo != null)
             {
-                <img src="@cocktail.PhotoUrl.OriginalString" class="card-img-top" alt="...">
+                <img src="@cocktail.Photo.ImageSource()" class="card-img-top" alt="...">
             }
             else
             {

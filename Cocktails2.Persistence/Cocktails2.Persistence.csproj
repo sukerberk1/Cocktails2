@@ -22,5 +22,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Cocktails2.Domain\Cocktails2.Domain.csproj" />
   </ItemGroup>
-
+	
 </Project>

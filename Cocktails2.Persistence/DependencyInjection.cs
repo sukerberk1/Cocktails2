@@ -2,26 +2,33 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cocktails2.Persistence
+namespace Cocktails2.Persistence;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(
-                options => {
-                    options.UseInMemoryDatabase("db");
-                    options.EnableSensitiveDataLogging();
-                });
+        services.AddDbContext<ApplicationDbContext>(
+            options => {
+                options.UseInMemoryDatabase("db");
+                options.EnableSensitiveDataLogging();
+            });
 
-            return services;
-        }
+        return services;
+    }
 
-        public static IServiceProvider SeedDatabase(this IServiceProvider service)
+    public static IServiceProvider SeedDatabase(this IServiceProvider service)
+    {
+        var context = service.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        try
         {
-            var context = service.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
             DatabaseSeed.SeedWith(context).Wait();
-            return service;
         }
+        catch(Exception ex)
+        {
+            Console.WriteLine("Database seeding failed");
+            Console.WriteLine(ex);
+        }
+        return service;
     }
 }

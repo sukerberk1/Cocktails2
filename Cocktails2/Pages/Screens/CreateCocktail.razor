@@ -55,6 +55,10 @@
     <input type="text" class="form-control" id="floatingInput2" @bind-value="cocktail.Description">
     <label for="floatingInput2">Cocktail's description</label>
 </div>
+<div class="mb-3">
+    <label for="formFile" class="form-label">Drag file image.</label>
+    <InputFile class="form-control" id="formFile" OnChange="@LoadFilesAsync"/>
+</div>
 <label>Choose cocktail's origin:</label>
 <select class="form-select mb-3 p-2" aria-label="Cocktail origin select" @bind="cocktail.Origin">
     @foreach (CocktailOrigin origin in Enum.GetValues(typeof(CocktailOrigin)))
@@ -86,7 +90,7 @@
     {
         <button class="btn btn-primary" type="button" @onclick="HandleAddCocktail">Create a cocktail</button>
     }
-
+    Dupa
 </div>
 
 
@@ -110,11 +114,29 @@
         cocktail.IngredientPortions = IngredientPortions;
     }
 
+    private async Task LoadFilesAsync(InputFileChangeEventArgs e)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            await e.File.OpenReadStream().CopyToAsync(memoryStream);
+            Console.WriteLine(" FILE STRAM LENGTH: " + memoryStream.Length);
+            cocktail.Photo = new Domain.ValueObjects.Picture(memoryStream.ToArray());
+        }
+    }
+
 
     private async Task HandleAddCocktail()
     {
         cocktail.IngredientPortions = IngredientPortions;
-        cocktail.PhotoUrl = new Uri("https://assets.bonappetit.com/photos/62cdd8cedc3e934b224d8fb5/4:3/w_2132,h_1599,c_limit/0712-paloma-lede.jpg");
+        if (cocktail.Photo == null)
+        {
+            cocktail.Photo = new Domain.ValueObjects.Picture(
+                await Persistence.Misc.ImageConverterService.ConvertUriToByteArrayAsync("https://jangorecipes.com/wp-content/uploads/2021/10/image-8-1.jpg")
+                );
+            Console.WriteLine("Picture set to default, no picture supplied or found.");
+        }
+        
+
         cocktail.CreatedOn = DateTime.Now;
         cocktail.UpdatedOn = DateTime.Now;
         if (!cocktail.IsValid())
