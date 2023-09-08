@@ -6,7 +6,7 @@ public interface IIngredientService
 {
     public Task<IReadOnlyCollection<Ingredient>> GetAllIngredientsAsync();
     public Task<Ingredient?> GetIngredientByIdAsync(int id);
-    public Task<Ingredient> GetIngredientByNameAsync(string name);
+    public Task<List<Ingredient>> GetIngredientsByNameAsync(string name);
     public Task AddIngredient(Ingredient ingredient);
     public Task UpdateIngredient(Ingredient ingredient);
 }

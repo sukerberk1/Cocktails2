@@ -1,0 +1,50 @@
+﻿@page "/ingredients"
+@using Cocktails2.Domain.Entities
+@using Cocktails2.Application.Services.Interfaces
+@inject IIngredientService ingredientService
+
+@if(ingredients == null)
+{
+    <h3>Loading...</h3>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-4 g-4 ingredient-box mb-5">
+        @foreach(Ingredient ingr in ingredients)
+        {
+            <div class="col">
+                <div class="card">
+                    <img src="@ingr.Photo.ImageSource()" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@ingr.Name</h5>
+                        <p class="card-text">
+                            @if (ingr.Description.Length >= 100)
+                            {
+                                <span>@ingr.Description.Substring(0, 100) ...</span>
+                            }
+                            else
+                            {
+                                <span>@ingr.Description</span>
+                            }
+                            <div class="mt-3">
+                                <NavLink href="@("/ingredients/" + ingr.Id)">
+                                    See more...
+                                </NavLink>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private IReadOnlyCollection<Ingredient>? ingredients = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ingredients = await ingredientService.GetAllIngredientsAsync();
+    }
+
+}

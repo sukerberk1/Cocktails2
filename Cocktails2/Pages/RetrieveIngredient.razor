@@ -1,0 +1,48 @@
+﻿@page "/ingredients/{Id:int}"
+@using Cocktails2.Domain.Entities
+@using Cocktails2.Application.Services.Interfaces
+@inject IIngredientService ingredientService
+
+@if(ingredient == null)
+{
+    
+}
+else
+{
+<div class="row">
+    <div class="col-md-6">
+        <NavLink href="/ingredients/">
+            <button type="button" class="btn btn-secondary my-3">Go back</button>
+        </NavLink>
+         
+        <h1>@ingredient.Name</h1>
+        <p>@ingredient.Description</p>
+        <h3>Taste experience:</h3>
+        @foreach(var taste in ingredient.TasteParameters.GetType().GetProperties())
+            {
+                <span>@taste.Name</span>
+                <span>: @taste.GetValue(ingredient.TasteParameters)</span><br/>
+                  
+            }
+    </div>
+    <div class="col-md-6">
+        <img src="@ingredient.Photo.ImageSource()" class="photo"/>
+    </div>
+</div>
+}
+
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Ingredient? ingredient = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ingredient = await ingredientService.GetIngredientByIdAsync(Id);
+    }
+
+}

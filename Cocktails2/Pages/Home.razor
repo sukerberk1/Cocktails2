@@ -1,7 +1,5 @@
 ﻿@page "/"
 @using Cocktails2.Application.Services.Interfaces
-
-@*This should be changed to use dtos instead of domain entities (??)*@
 @using Cocktails2.Domain.Entities
 @using Cocktails2.Persistence.DAO
 
@@ -16,7 +14,7 @@
 }
 else
 {
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-3 card-wrapper">
             <div class="card text-center">
                 <div class="card-body mt-2">
@@ -43,7 +41,7 @@ else
                         {
                             <p class="card-text">@cock.Description</p>
                         }
-                        <NavLink href="/cocktails/1" class="card-link">See more</NavLink>
+                        <NavLink href="@("/cocktails/" + cock.Id)" class="card-link">See more</NavLink>
                     </div>
                 </div>
             </div>
@@ -59,12 +57,11 @@ else
     {
         try
         {
-            Console.WriteLine("FETCHING !!!!");
             cocktails = await cocktailService.GetAllCocktailsAsync();
         }
         catch(Exception ex)
         {
-            Console.WriteLine("FAILED !!!!");
+            Console.WriteLine("Getting cocktails from db failed");
             Console.WriteLine(ex);
             cocktails = null;
         }
